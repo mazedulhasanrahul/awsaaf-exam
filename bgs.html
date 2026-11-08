@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGS Model Test - Awsaaf's Portal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config & Custom CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#fce7f3',
+                            pink: '#ec4899',
+                            electric: '#db2777',
+                            slate: '#64748b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        bengali: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdf2f8;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+        
+        .font-bn {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 20px -5px rgba(236, 72, 153, 0.1);
+        }
+        /* Custom Scrollbar for Textarea & Nav */
+        
+         ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .question-card {
+            transition: all 0.3s ease;
+            scroll-margin-top: 100px;
+        }
+        
+        .nav-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-btn.answered {
+            background-color: #ec4899;
+            color: white;
+            border-color: #ec4899;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-brand-pink selection:text-white">
+
+    <!-- Top Navigation Bar (Timer & Controls) -->
+    <nav class="glass-panel fixed top-0 w-full z-50 border-b border-gray-100 hidden" id="examNavbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-brand-light rounded-lg flex items-center justify-center text-brand-pink font-bold">
+                        BGS
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="font-bold text-gray-900 leading-tight">Bangladesh & Global Studies</h1>
+                        <p class="text-xs text-brand-slate">Awsaaf • Class 8</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <!-- Timer -->
+                    <div id="timerDisplay" class="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-xl font-mono text-lg font-bold shadow-md transition-colors duration-300">
+                        <i data-lucide="clock" class="w-5 h-5 text-gray-300"></i>
+                        <span id="timeRemaining">60:00</span>
+                    </div>
+
+                    <button onclick="confirmSubmit()" class="px-6 py-2 bg-brand-electric hover:bg-brand-pink text-white rounded-xl font-semibold shadow-md hover:shadow-lg transition-all hidden sm:flex items-center gap-2">
+                        Submit
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- INSTRUCTION PANEL (Pre-Exam) -->
+    <div id="instructionPanel" class="max-w-3xl mx-auto px-4 py-12 min-h-screen flex flex-col justify-center">
+        <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-xl">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-brand-light text-brand-pink rounded-2xl mb-4">
+                    <i data-lucide="book-open" class="w-8 h-8"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">BGS Model Test</h1>
+                <p class="text-brand-slate font-medium">Student: Awsaaf | Class: 8 | Full Marks: 40 | Time: 60 Mins</p>
+            </div>
+
+            <div class="bg-white/60 rounded-2xl p-6 border border-brand-pink/10 mb-8">
+                <h2 class="font-bn text-xl font-bold text-gray-900 mb-4 border-b pb-2 flex items-center gap-2">
+                    <i data-lucide="info" class="w-5 h-5 text-brand-pink"></i> পরীক্ষার নির্দেশনাবলি:
+                </h2>
+                <ul class="font-bn text-gray-700 space-y-3 text-lg">
+                    <li class="flex gap-2"><span>১.</span> <span>পরীক্ষায় মোট ৪০টি প্রশ্ন থাকবে।</span></li>
+                    <li class="flex gap-2"><span>২.</span> <span>প্রতিটি প্রশ্নের মান ১।</span></li>
+                    <li class="flex gap-2"><span>৩.</span> <span>প্রতিটি প্রশ্নের উত্তর সংক্ষিপ্ত ও নির্ভুল হতে হবে।</span></li>
+                    <li class="flex gap-2"><span>৪.</span> <span>প্রতিটি প্রশ্নের উত্তর নির্দিষ্ট Answer Box-এ লিখতে হবে।</span></li>
+                    <li class="flex gap-2"><span>৫.</span> <span>পরীক্ষা শেষে <strong>Submit Examination</strong> বাটনে ক্লিক করতে হবে।</span></li>
+                    <li class="flex gap-2"><span>৬.</span> <span>উত্তর জমা দেওয়ার আগে সব প্রশ্ন ভালোভাবে যাচাই করে নিতে হবে।</span></li>
+                </ul>
+            </div>
+
+            <button onclick="startExamination()" class="w-full py-4 bg-gradient-to-r from-brand-pink to-brand-electric text-white text-lg font-bold rounded-2xl shadow-lg shadow-brand-pink/30 hover:shadow-brand-pink/50 hover:-translate-y-1 transition-all duration-300 flex justify-center items-center gap-2">
+                Start Examination
+                <i data-lucide="play-circle" class="w-6 h-6"></i>
+            </button>
+            <div class="text-center mt-4">
+                <a href="index.html" class="text-sm text-gray-500 hover:text-brand-pink flex items-center justify-center gap-1">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Return to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN EXAM LAYOUT -->
+    <div id="examLayout" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <div class="flex flex-col lg:flex-row gap-8 relative">
+
+            <!-- Left Panel: Question Navigator -->
+            <div class="w-full lg:w-72 flex-shrink-0">
+                <div class="glass-panel rounded-2xl p-5 sticky top-24">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center justify-between">
+                        Question Navigator
+                        <span id="answeredCountBadge" class="text-xs bg-brand-light text-brand-pink px-2 py-1 rounded-md">0/40 Answered</span>
+                    </h3>
+
+                    <div id="questionGrid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2">
+                        <!-- Navigation buttons generated by JS -->
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex flex-col gap-2">
+                        <div class="flex items-center gap-2 text-xs text-gray-600">
+                            <div class="w-3 h-3 rounded bg-brand-pink"></div> Answered
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600">
+                            <div class="w-3 h-3 rounded bg-white border border-gray-300"></div> Unanswered
+                        </div>
+                        <button onclick="confirmSubmit()" class="mt-4 w-full py-2 bg-gray-900 text-white rounded-xl text-sm font-semibold sm:hidden">
+                            Submit Exam
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Questions List -->
+            <div class="flex-1 space-y-6" id="questionsContainer">
+                <!-- Questions generated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT DASHBOARD -->
+    <div id="resultDashboard" class="hidden max-w-3xl mx-auto px-4 py-12 min-h-screen flex flex-col justify-center">
+        <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-xl text-center">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Examination Submitted Successfully!</h1>
+            <p class="text-gray-500 mb-8">Your answers have been securely recorded.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-6 mb-8 text-left grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Student Name</p>
+                    <p class="text-sm font-bold text-gray-900">Awsaaf</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Subject</p>
+                    <p class="text-sm font-bold text-gray-900">BGS (Class 8)</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Total Questions</p>
+                    <p class="text-sm font-bold text-gray-900">40</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Answered</p>
+                    <p class="text-sm font-bold text-brand-pink" id="resAnswered">0</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Unanswered</p>
+                    <p class="text-sm font-bold text-gray-900" id="resUnanswered">40</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-medium">Time Taken</p>
+                    <p class="text-sm font-bold text-gray-900" id="resTimeTaken">00:00</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-xl transition-colors">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="submitModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onclick="closeSubmitModal()"></div>
+        <div class="bg-white rounded-3xl w-full max-w-sm shadow-2xl relative z-10 p-6 text-center">
+            <div class="w-16 h-16 bg-brand-light text-brand-pink rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="help-circle" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Submit Examination?</h3>
+            <p class="text-sm text-gray-600 mb-6 font-bn" id="submitStatsText"></p>
+
+            <div class="flex gap-3">
+                <button onclick="closeSubmitModal()" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition">
+                    Cancel
+                </button>
+                <button onclick="processSubmission()" class="flex-1 py-3 bg-brand-electric hover:bg-brand-pink text-white font-semibold rounded-xl transition">
+                    Yes, Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bgsQuestions = [
+            "সামাজিকীকরণ কী?",
+            "কিশোর অপরাধ বলতে কী বোঝায়?",
+            "বাংলাদেশের উল্লেখযোগ্য তিনটি খনিজসম্পদের নাম লেখো।",
+            "ইউনিসেফ কত সালে প্রতিষ্ঠিত হয়?",
+            "সামাজিকীকরণের প্রথম ও প্রধান বাহন কোনটি?",
+            "মাদকাসক্তির একটি প্রধান কারণ লেখো।",
+            "বাংলাদেশের প্রধান বনজসম্পদ কী কী কাজে ব্যবহৃত হয়?",
+            "ইউনেস্কোর সদর দপ্তর কোথায় অবস্থিত?",
+            "অনুকরণ বলতে কী বোঝায়?",
+            "বাংলাদেশে কিশোর অপরাধী হিসেবে কোন বয়সসীমার কিশোরদের গণ্য করা হয়?",
+            "বাংলাদেশের কোন অঞ্চলে প্রচুর চা উৎপাদিত হয়?",
+            "ইউএনডিপি কত সালে গঠিত হয়?",
+            "অভিভাবন কী?",
+            "মাদক গ্রহণের ফলে মানুষের কোন কোন শারীরিক ক্ষতি হতে পারে?",
+            "বাংলাদেশের প্রথম প্রাকৃতিক গ্যাসভিত্তিক সার কারখানা কোথায় প্রতিষ্ঠিত হয়?",
+            "ফাও-এর প্রধান লক্ষ্য কী?",
+            "সমবয়সী সঙ্গীরা শিশুর মধ্যে কোন কোন গুণাবলি বিকাশে সহায়তা করে?",
+            "কিশোর অপরাধের দুটি উদাহরণ দাও।",
+            "চিংড়িকে বাংলাদেশের সাদা সোনা বলা হয় কেন?",
+            "বিশ্ব স্বাস্থ্য সংস্থা কত সালে প্রতিষ্ঠিত হয়?",
+            "ইলেকট্রনিক কমার্সকে সংক্ষেপে কী বলা হয়?",
+            "কিশোর অপরাধ প্রতিরোধে অভিভাবকদের দুটি করণীয় লেখো।",
+            "বাংলাদেশের মোট বনভূমির পরিমাণ কত বর্গকিলোমিটার?",
+            "ইউএনএফপিএ-এর মূল লক্ষ্য কী?",
+            "বিশ্বায়ন কী?",
+            "মাদকাসক্তি প্রতিরোধে নৈতিক শিক্ষার গুরুত্ব কী?",
+            "বাংলাদেশের প্রথম চিনিকল কোথায় প্রতিষ্ঠিত হয়?",
+            "ইউনেস্কোর মূল কাজের ক্ষেত্র কয়টি ও কী কী?",
+            "সামাজিকীকরণে ভাষার ভূমিকা কী?",
+            "কিশোর অপরাধ প্রতিরোধে চিত্তবিনোদনের দুটি মাধ্যমের নাম লেখো।",
+            "বাংলাদেশের প্রথম পাটকলের নাম কী এবং এটি কোথায় প্রতিষ্ঠিত হয়েছিল?",
+            "ইউএনডিপি-এর সদর দপ্তর কোথায় অবস্থিত?",
+            "শহরের মানুষের সামাজিকীকরণে পরিবারের পর কোন দুটি মাধ্যম বেশি ভূমিকা রাখে?",
+            "মাদকাসক্তির ফলে পারিবারিক জীবনে কী ধরনের সমস্যা সৃষ্টি হয়?",
+            "বাংলাদেশের কোন সমুদ্রবন্দরগুলো বঙ্গোপসাগরের তীরে অবস্থিত?",
+            "ফাও কত সালে প্রতিষ্ঠিত হয়?",
+            "ই-মেইল কী?",
+            "বাংলাদেশ সরকার কত সালে মাদকবিরোধী সার্ক কনভেনশনে স্বাক্ষর করে?",
+            "বাংলাদেশের তৈরি পোশাকশিল্পের যাত্রা কোন দশকে শুরু হয়?",
+            "ইউএনএফপিএ কত সালে প্রতিষ্ঠিত হয়?"
+        ];
+
+        let answers = {};
+        let examTimer;
+        let timeLeft = 60 * 60; // 60 minutes
+        const EXAM_DURATION = 60 * 60;
+
+        // Load saved answers from LocalStorage
+        const loadAnswers = () => {
+            const saved = localStorage.getItem('awsaaf_bgs_answers');
+            if (saved) {
+                try {
+                    answers = JSON.parse(saved);
+                } catch (e) {
+                    answers = {};
+                }
+            }
+        };
+
+        const saveAnswers = () => {
+            localStorage.setItem('awsaaf_bgs_answers', JSON.stringify(answers));
+            updateProgress();
+        };
+
+        // Initialize UI Elements
+        const initUI = () => {
+            const grid = document.getElementById('questionGrid');
+            const container = document.getElementById('questionsContainer');
+
+            grid.innerHTML = '';
+            container.innerHTML = '';
+
+            bgsQuestions.forEach((qText, index) => {
+                const qNum = index + 1;
+
+                // Nav Button
+                const btn = document.createElement('button');
+                btn.className = `nav-btn w-full aspect-square rounded-lg border border-gray-200 flex items-center justify-center text-sm font-semibold hover:border-brand-pink hover:text-brand-pink bg-white ${answers[qNum] && answers[qNum].trim() !== '' ? 'answered' : ''}`;
+                btn.id = `nav-btn-${qNum}`;
+                btn.innerText = qNum;
+                btn.onclick = () => {
+                    document.getElementById(`q-${qNum}`).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                };
+                grid.appendChild(btn);
+
+                // Question Card
+                const card = document.createElement('div');
+                card.id = `q-${qNum}`;
+                card.className = 'question-card glass-panel rounded-2xl p-6';
+
+                card.innerHTML = `
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-light text-brand-pink flex items-center justify-center font-bold font-mono">
+                            ${qNum}
+                        </div>
+                        <div class="flex-1 w-full">
+                            <h4 class="font-bn text-lg font-semibold text-gray-900 mb-3 leading-relaxed">${qText}</h4>
+                            <textarea 
+                                id="ans-${qNum}"
+                                class="font-bn w-full h-24 p-4 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-pink focus:border-transparent outline-none resize-none transition-all text-gray-800 leading-relaxed" 
+                                placeholder="এখানে উত্তর লিখুন..."
+                            ></textarea>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+
+                // Attach event listener
+                const textarea = card.querySelector('textarea');
+                if (answers[qNum]) textarea.value = answers[qNum];
+
+                textarea.addEventListener('input', (e) => {
+                    answers[qNum] = e.target.value;
+                    saveAnswers();
+
+                    // Update Nav Button Class
+                    const navBtn = document.getElementById(`nav-btn-${qNum}`);
+                    if (e.target.value.trim() !== '') {
+                        navBtn.classList.add('answered');
+                    } else {
+                        navBtn.classList.remove('answered');
+                    }
+                });
+            });
+
+            updateProgress();
+        };
+
+        const updateProgress = () => {
+            const answeredCount = Object.values(answers).filter(ans => ans.trim() !== '').length;
+            document.getElementById('answeredCountBadge').innerText = `${answeredCount}/40 Answered`;
+        };
+
+        // Timer Functionality
+        const formatTime = (seconds) => {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        };
+
+        const updateTimerDisplay = () => {
+            const display = document.getElementById('timeRemaining');
+            const timerContainer = document.getElementById('timerDisplay');
+            display.innerText = formatTime(timeLeft);
+
+            // Warnings
+            if (timeLeft <= 300) { // 5 mins
+                timerContainer.classList.remove('bg-gray-900', 'bg-yellow-500');
+                timerContainer.classList.add('bg-red-500', 'animate-pulse');
+            } else if (timeLeft <= 600) { // 10 mins
+                timerContainer.classList.remove('bg-gray-900');
+                timerContainer.classList.add('bg-yellow-500');
+            }
+        };
+
+        const startTimer = () => {
+            // Check if timer already started in this session
+            const savedTime = localStorage.getItem('awsaaf_bgs_time');
+            if (savedTime && !isNaN(savedTime)) {
+                timeLeft = parseInt(savedTime);
+            }
+
+            updateTimerDisplay();
+            examTimer = setInterval(() => {
+                timeLeft--;
+                localStorage.setItem('awsaaf_bgs_time', timeLeft);
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(examTimer);
+                    processSubmission(true);
+                }
+            }, 1000);
+        };
+
+        // Exam Flow
+        const startExamination = () => {
+            document.getElementById('instructionPanel').classList.add('hidden');
+            document.getElementById('examNavbar').classList.remove('hidden');
+            document.getElementById('examLayout').classList.remove('hidden');
+
+            loadAnswers();
+            initUI();
+            startTimer();
+            lucide.createIcons();
+        };
+
+        const confirmSubmit = () => {
+                const answeredCount = Object.values(answers).filter(ans => ans.trim() !== '').length;
+                const unanswered = 40 - answeredCount;
+
+                const text = `You have answered <span class="font-bold text-gray-900">${answeredCount}</span> out of 40 questions.<br>
+                          ${unanswered > 0 ? `<span class="text-red-500">${unanswered} questions are unanswered.</span>` : '<span class="text-green-500">All questions answered!</span>'}`;
+                          
+            document.getElementById('submitStatsText').innerHTML = text;
+            document.getElementById('submitModal').classList.remove('hidden');
+        };
+
+        const closeSubmitModal = () => {
+            document.getElementById('submitModal').classList.add('hidden');
+        };
+
+        const processSubmission = (isAuto = false) => {
+            clearInterval(examTimer);
+            document.getElementById('submitModal').classList.add('hidden');
+            document.getElementById('examNavbar').classList.add('hidden');
+            document.getElementById('examLayout').classList.add('hidden');
+            
+            const answeredCount = Object.values(answers).filter(ans => ans.trim() !== '').length;
+            const timeTakenSec = EXAM_DURATION - timeLeft;
+            
+            document.getElementById('resAnswered').innerText = answeredCount;
+            document.getElementById('resUnanswered').innerText = 40 - answeredCount;
+            document.getElementById('resTimeTaken').innerText = formatTime(timeTakenSec);
+            
+            document.getElementById('resultDashboard').classList.remove('hidden');
+            
+            // Clear temporary storages after submission
+            localStorage.removeItem('awsaaf_bgs_time');
+            // Keeping answers in local storage allows review later if you choose to build that feature
+        };
+
+        // Initialize icons on load
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
